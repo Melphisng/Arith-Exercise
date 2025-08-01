@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>珠心算练习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            touch-action: manipulation;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-weight: bold;
+            color: black;
+        }
+        .author {
+            font-size: 14px;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            min-height: 48px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #nameSection {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px 0;
+            width: 200px;
+        }
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>珠心算练习</h1>
+        <p class="author">作者：颜毅翔</p>
+        <div id="nameSection">
+            <label for="userName">修改姓名：</label>
+            <input type="text" id="userName" placeholder="请输入姓名">
+            <button onclick="saveName()">保存</button>
+        </div>
+        <ul>
+            <li><button onclick="goToPractice('一位直加直减.html')">一位直加直减</button></li>
+            <li><button onclick="goToPractice('一位三笔.html')">一位三笔加减法</button></li>
+            <li><button onclick="goToPractice('一位五笔加减.html')">一位五笔加减法</button></li>
+            <li><button onclick="goToPractice('两位三笔加减.html')">两位三笔加减法</button></li>
+            <li><button onclick="goToPractice('一位乘法.html')">乘法: 一位乘一位</button></li>
+            <li><button onclick="goToPractice('两位乘法.html')">乘法: 两位乘一位</button></li>
+        </ul>
+    </div>
+
+    <!-- 欢迎模态框 -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <h2>欢迎！</h2>
+            <p>请输入您的姓名：</p>
+            <input type="text" id="welcomeName" placeholder="请输入姓名">
+            <button onclick="saveWelcomeName()">确认</button>
+        </div>
+    </div>
+
+    <script>
+        // 检查是否已有名字
+        if (!localStorage.getItem('userName')) {
+            document.getElementById('welcomeModal').style.display = 'flex';
+        } else {
+            document.getElementById('userName').value = localStorage.getItem('userName');
+        }
+
+        function saveWelcomeName() {
+            const name = document.getElementById('welcomeName').value.trim();
+            if (name) {
+                localStorage.setItem('userName', name);
+                document.getElementById('welcomeModal').style.display = 'none';
+                document.getElementById('userName').value = name;
+            } else {
+                alert('请输入姓名！');
+            }
+        }
+
+        function saveName() {
+            const name = document.getElementById('userName').value.trim();
+            if (name) {
+                localStorage.setItem('userName', name);
+                alert('姓名已保存！');
+            } else {
+                alert('请输入姓名！');
+            }
+        }
+
+        function goToPractice(page) {
+            if (localStorage.getItem('userName')) {
+                window.location.href = page;
+            } else {
+                alert('请先输入姓名！');
+            }
+        }
+    </script>
+</body>
+</html>
